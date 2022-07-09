@@ -1,0 +1,151 @@
+Spring MVC
+------------------------------
+
+create maven project
+
+select webapp
+
+and once project created check do you have error in your pom.xml if yes then add maven war plugin after finalname tag
+
+<plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>
+    </plugins>
+
+save and check error removed.
+
+check is there any error in your jsp file ? (check error for HTTPServlet yes then)
+
+include servlet-api maven repository in dependency
+
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+
+save and update project
+
+______________________________________________________________________________________________
+
+if there is no src/main/java folder then
+
+right click on your project --> buildpath --> configure buildpath --> click order and export tag --> select 2 check boxes --> apply --> apply and close
+
+______________________________________________________________________________________________
+
+open pom.xml and include spring core,context,beans,web,web,mvc dependencies
+
+open index.jsp and add registration link
+
+<html>
+<body>
+<h2>Hello World!</h2>
+<a href="register">Registration</a>
+</body>
+</html>
+
+________________________________________________________________________________________________
+
+open web.xml and configure dispatcher servlet
+
+when dispacher servlet handle all request and then it will ask handler to find out the controller --> the handler is spring configuration file so we have to tell our web.xml what is the handler file name to configure handler you need to use contextParam.
+
+to load needs to register Listener.
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/test-servlet.xml</param-value>
+  </context-param>
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <servlet>
+  	<servlet-name>test</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>test</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+__________________________________________________________________________________________________
+the handler file which we have created to give the name usually we follow
+
+servlet name given in web.xml - servlet.xml
+
+(test-servlet.xml) is the spring configuration file
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config></context:annotation-config>
+    <context:component-scan base-package="com.simplilearn.controller"></context:component-scan>
+
+	<bean id="jspViewResolver" 
+	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"></property>
+		<property name="prefix" value="/WEB-INF/views/"></property>
+	</bean>
+</beans>
+
+_____________________________________________________________________________________________
+
+create MainController
+
+package com.simplilearn.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class MainController {
+
+	@RequestMapping("/register")
+	public String hanldeRequest() {
+		return "register";
+	}
+}
+
+
+________________________________________________________________________________________________
+
+create register.jsp page in WEB-INF/views
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>This is my Registration Page</h1>
+</body>
+</html>
+
+
+
+
+
+
