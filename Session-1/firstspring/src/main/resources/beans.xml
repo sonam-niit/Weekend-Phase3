@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+    <!--  Let's create object of HelloWorld Class -->
+    <bean id="obj" class="com.simplilearn.firstspring.HelloWorld"></bean>
+    <bean id="passObj" class="com.simplilearn.firstspring.Passport"> 
+    	<property name="passNo" value="12345"></property>
+    </bean>
+	<bean id="stdObj" class="com.simplilearn.firstspring.Student">
+		<property name="id" value="11"></property>
+		<property name="name" value="Sonam soni"></property>
+		<property name="passport" ref="passObj"></property>
+	</bean>
+	<!-- Student stdObj= new Student(); stdObj.setId(11); stdObj.setName("Sonam Soni"); -->
+</beans>
