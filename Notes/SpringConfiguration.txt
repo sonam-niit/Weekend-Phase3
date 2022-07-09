@@ -1,0 +1,67 @@
+Create maven project --> next --> select all catalog  to internal --> select quickstart archetype to create java application
+----------------------------------------------------------------------
+
+open pom.xml and include spring beans,core and context dependency
+___________________________________________________________________________________________
+
+create HelloWorld class
+
+package com.simplilearn.firstspring;
+
+public class HelloWorld {
+
+	public void print()
+	{
+		System.out.println("Welcome from Hello World");
+	}
+}
+)
+___________________________________________________________________________________________
+
+create sourceFolder in project and name it src/main/resources
+
+create xml file in that and name --> beans.xml
+
+to include xsd defination check this (https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/xsd-configuration.html)
+
+
+create HelloWorld bean with id obj
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  Let's create object of HelloWorld Class -->
+    <bean id="obj" class="com.simplilearn.firstspring.HelloWorld"></bean>
+
+</beans>
+________________________________________________________________________________________________
+
+you can read this bean in APp.java by BeanFactory or ApplicationContext
+
+package com.simplilearn.firstspring;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+//       Resource resource= new ClassPathResource("beans.xml");
+//       BeanFactory factory = new XmlBeanFactory(resource);
+//    	 HelloWorld h =(HelloWorld) factory.getBean("obj");
+    	ApplicationContext context= new ClassPathXmlApplicationContext("beans.xml");
+    	HelloWorld h =(HelloWorld) context.getBean("obj");
+    	h.print();
+    }
+}
+
+
