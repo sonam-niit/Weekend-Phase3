@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="startEventListener" class="com.simplilearn.listeners.StartEventListener"></bean>
+    <bean id="stopEventListener" class="com.simplilearn.listeners.StopEventListener"></bean>
+
+	<bean id="cep" class="com.simplilearn.customevent.CustomEventPublisher"></bean>
+	<bean id="cel" class="com.simplilearn.customevent.CustomEventListener"></bean>
+</beans>
