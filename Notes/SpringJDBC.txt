@@ -1,0 +1,61 @@
+Step 1: create maven web project
+
+step 2: include maven war plugin
+
+step 3: include all required dependencies
+
+	core,context,beans, web, web-mvc, spring-jdbc, servlet-api
+	mysql-connector, jstl (1.2)
+
+step 4: after including all this dependencies update maven project
+
+step 5: create web.xml
+
+	configure dispatcherServlet
+
+	configure contextParameter (main-servlet.xml)
+
+	register Listener (ContextLodaerListener)
+
+step 6: create handler file (spring config) -- main-servlet.xml
+
+	include xsd
+	update with context
+
+	include context-annotation
+	context-componentscan give package name of your controllers
+
+	register beans for ViewResolver, DriverManagerDataSource
+	JDBCTemplate, DAO class
+
+step 7: create Entity class and add all required properties with private
+	declaration, generate default and parametrized constructor
+
+	generate getters and setters
+
+step 8: create DAO class here you can write all CRUD operations method
+	
+	create Retrive method
+
+	inject JDBCTemplate dependency with @Autowired
+
+	use in your CRUD operations
+
+	on the top of the class Include @Repository annotation
+
+step 9: create Controller ... include @Controller
+
+	inject DAO dependency with autowired
+
+	in your controler you can use dao object for calling methods
+
+	give the mapping using @GetMapping
+
+step 10: create link for the same mapping in index.jsp
+
+step 11: create views folder in WEb-INF and create view file
+
+	display.jsp
+	include core tag library to use c:foreach tag
+
+	it works similar as for each loop
