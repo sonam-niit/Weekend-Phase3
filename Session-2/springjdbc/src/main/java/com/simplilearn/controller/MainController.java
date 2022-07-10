@@ -2,6 +2,8 @@ package com.simplilearn.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,5 +23,22 @@ public class MainController {
 		List<EProductEntity> list= dao.getAllProducts();
 		map.addAttribute("list",list);
 		return "display";
+	}
+	@GetMapping("/details")
+	public String getById(ModelMap map,HttpServletRequest request)
+	{
+		String id= request.getParameter("id");
+		long uid= Long.parseLong(id);
+		EProductEntity entity=dao.getProductById(uid);
+		if(entity!=null)
+		{
+			map.addAttribute("product",entity);
+			return "details";
+		}
+		else
+		{
+			return "error";
+		}
+			
 	}
 }
