@@ -67,12 +67,21 @@ step 11: create views folder in WEb-INF and create view file
 Database:
 --------------------
 
-●	Type CREATE DATABASE ecommerce and press Enter
-●	Type USE ecommerce and press Enter
-●	Type CREATE TABLE eproduct (ID bigint primary key auto_increment, name varchar(100), price decimal(10,2), date_added timestamp default now()) and press Enter
-●	We will now add some rows to the table
-●	Type INSERT INTO eproduct(name, ‘HP Laptop ABC’, 12000) and press Enter
-●	Type INSERT INTO eproduct(name, ‘Acer Laptop ABC’, 14000) and press Enter
-●	Type INSERT INTO eproduct(name, ‘Lenovo Laptop ABC’, 12000) and press Enter
-●	Type SELECT * from eproduct and press Enter to confirm that the rows have been added
-●	Type EXIT to exit the MySQL command console
+Type CREATE DATABASE ecommerce and press Enter
+Type USE ecommerce and press Enter
+Type 
+CREATE TABLE eproduct (ID bigint primary key auto_increment, name varchar(100), price decimal(10,2), date_added timestamp default now()) 
+
+and press Enter
+We will now add some rows to the table
+Type 
+INSERT INTO eproduct(name,price)values('HP Laptop ABC', 12000) and press Enter
+INSERT INTO eproduct(name,price)values ('Acer Laptop ABC', 14000) and press Enter
+INSERT INTO eproduct(name,price)values ('Lenovo Laptop ABC', 12000) and press Enter
+
+Type SELECT * from eproduct 
+and press Enter to confirm that the rows have been added
+
+Type EXIT to exit the MySQL command console
+
+
