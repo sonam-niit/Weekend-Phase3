@@ -1,0 +1,206 @@
+Download Apache kafka from the following link
+
+https://www.apache.org/dyn/closer.cgi?path=/kafka/3.2.0/kafka_2.12-3.2.0.tgz
+
+_______________________________________________________________________________
+
+Once it is downloaded unzip the same and rename the folder as kafka and keep it in D or E drive for easy access.
+
+Whenever you want to start the apache kafka server first of all you need to start the zoopeeker server and then start kafka server.
+
+Official kafka site: how to strat kafka server: https://kafka.apache.org/quickstart
+______________________________________________________________________________
+
+move to your kafka folder
+
+>D:
+>cd kafka
+execute below mentioned command
+start zookeeper 
+
+>  .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+
+start kafka server
+open another CMD  and again move to your kafka folder and execute below mentioned command
+
+>   .\binwindows\kafka-server-start.bat .\config\server.properties 
+
+_____________________________________________________________________________________________
+
+Once the server is started, now let's create Springboot application for producer and consumer
+
+and we Producer will send the message and consumer will recieve message through kafka server
+
+_________________________________________________________________________________________________
+
+Create Springboot Application
+
+dependencies: web, spring for apache kafka and spring for apache kafka streams include in your project
+
+___________________________________________________________________________________________________
+
+Now let's config Producer and consumer one by one
+
+create ApacheProducerConfig class
+
+package com.simplilearn.kafka;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+
+@Configuration
+public class ApacheProducerConfig {
+
+	@Bean
+	public ProducerFactory<String, String> producerFactory(){
+		
+		Map<String, Object> configProp= new HashMap<String, Object>();
+		configProp.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		configProp.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		configProp.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
+		
+		return new DefaultKafkaProducerFactory<String, String>(configProp);
+	}
+	
+	//send messages we required kafka template
+	@Bean
+	public KafkaTemplate<String, String> kafkaTemplate(){
+		return new KafkaTemplate<String, String>(producerFactory());
+	}
+	
+}
+
+_______________________________________________________________________________________________________
+
+create ApacheConsumerConfig class
+
+package com.simplilearn.kafka;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+
+@Configuration
+public class ApacheConsumerConfig {
+
+	@Bean
+	public ConsumerFactory<String, String> consumerFactory(){
+		
+		Map<String, Object> configProp= new HashMap<String, Object>();
+		configProp.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		configProp.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+		configProp.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
+		configProp.put(ConsumerConfig.GROUP_ID_CONFIG, "group-id");
+		
+		return new DefaultKafkaConsumerFactory<String, String>(configProp);
+	}
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListener(){
+		return new ConcurrentKafkaListenerContainerFactory<String, String>();
+	}
+}
+
+_______________________________________________________________________________________________
+
+Create MainController to send messages
+
+package com.simplilearn.kafka;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MainController {
+
+	@Autowired
+	KafkaTemplate<String,String> kafkaTemplate;
+	
+	@GetMapping("/send")
+	public String sendMessage() {
+		
+		kafkaTemplate.send("GENERAL","Hello from Apache Kafka");
+		
+		return "message sent successfully, check the console to read message";
+	}
+}
+
+______________________________________________________________________________________________________
+
+Include below mentioned code in your MainApplication file
+
+package com.simplilearn.kafka;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.KafkaListener;
+
+@SpringBootApplication
+@ComponentScan("com.simplilearn.kafka")
+@EnableKafka
+public class ApachekafkaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ApachekafkaApplication.class, args);
+	}
+
+	@KafkaListener(topics = "GENERAL", groupId = "group-id")
+	public void listen(String message) {
+		System.out.println("Message Received: "+message);
+	}
+}
+
+______________________________________________________________________________________________________
+
+Run application and call send method from browser: localhost:8080/send
+
+check message is received in console or not.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
