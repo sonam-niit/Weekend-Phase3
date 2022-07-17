@@ -1,0 +1,115 @@
+HTTPS in Springboot
+_______________________________
+
+Get an SSL certificate
+
+you can use keytool command which is you will get with jdk installation only.
+
+open cmd and execute below mentioned command
+
+keytool -genkey -alias selfsigned_localhost_sslserver -keyalg RSA -keysize 2048 -validity 700 -keypass Sonam@123 -storepass Sonam@123 -keystore ssl-server.jks
+
+when you execute it will propmp with some questions so you can answer as mentioned below
+
+What is your first and last name?
+  [Unknown]:  Sonam Soni
+What is the name of your organizational unit?
+  [Unknown]:  Educational
+What is the name of your organization?
+  [Unknown]:  Simplilearn
+What is the name of your City or Locality?
+  [Unknown]:  Mumbai
+What is the name of your State or Province?
+  [Unknown]:  Maharastra
+What is the two-letter country code for this unit?
+  [Unknown]:  91
+Is CN=Sonam Soni, OU=Educational, O=Simplilearn, L=Mumbai, ST=Maharastra, C=91 correct?
+  [no]:  yes
+
+last when you say yes it will create ssl-server.jks file at location where you have executed the command.
+
+____________________________________________________________________________________________________________
+
+
+Create Spring boot application named https
+
+include only web dependency
+
+Open the project from file Explorer and paste thies ssl-server.jks file at the same location where the pom.xml available.
+
+crete Controller Named MainController
+
+package com.simplilearn.https;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MainController {
+
+	@GetMapping("/test")
+	public String testHttps() {
+		return "Executed on HTTPS";
+	}
+}
+_________________________________________________________________________________________
+
+Open main application and include component scan with package name
+
+package com.simplilearn.https;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan("com.simplilearn.https")
+public class HttpsApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HttpsApplication.class, args);
+	}
+
+}
+
+____________________________________________________________________________________________
+open application.properties file and add below mentioned properties
+
+server.port= 8443
+server.ssl.key-alias=selfsigned_localhost_sslserver
+server.ssl.key-password=Sonam@123
+server.ssl.key-store-password=Sonam@123
+server.ssl.key-store=ssl-server.jks
+server.ssl.key-store-provider=SUN
+server.ssl.key-store-type=JKS
+_______________________________________________________________________________________________
+
+Now run your application and check localhost:8443/test
+
+It will show you bad request as your application is running on https protocol.
+
+so to check the output open
+
+https://localhost:8443/test
+
+it will ask you to continue and click proceed so you can see the output.
+
+it is showing notsecure as we are running it on localhost.
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
