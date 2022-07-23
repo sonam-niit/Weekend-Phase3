@@ -1,0 +1,81 @@
+JUnit Demo
+-------------------------
+
+create maven project.
+
+select quickstart archetype
+
+give groupid, artifact id package etc.  create project
+-------------------------------------------------------------------
+
+open pom.xml and first remove the old junit-3 dependency also remove AppTest from src/test/java and app from src/main/java folder
+
+
+Let's include JUnit 5 dependencies.
+
+open maven repository and search for junit jupiter.
+
+include Junit jupiter API and Junit Jupiter Engine.
+
+<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+__________________________________________________________________________
+
+
+after that for creating Junit test case we required Java version 8 or >8. to do that include maven compiler plugin in your POM.xml
+
+after dependencies tag.
+
+<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+Save the file 
+
+right click on project --> maven update.
+
+click on package which is availale inside src/test/java folder.. right click on that and create new Junit test case.
+
+add below mentioned code
+
+package com.simplilearn.test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class MyFirstTest {
+
+	@Test
+	public void test() {
+		System.out.println("Test case executed");
+	}
+
+}
+
+Right click on this file and run it as junitTest
+
+you can see junit console with green line which indicates test case passed.
