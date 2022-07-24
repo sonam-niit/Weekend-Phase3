@@ -1,0 +1,23 @@
+create Springboot project
+
+include spring-web, mysql driver, spring data jpa, devtools dependency.
+
+Include all application properties for DB config.
+
+Create Entity- UserEntity, apply all required annotations, generate getters and setters.
+
+create Repository--> its an interface which extends JPARepository Interface
+
+apply @Repository annotation on the top this interface.
+
+-----------------------------------------------------------------
+
+create Service--> class which use annotation @Service an inject Repository as autowired.
+
+Implement all crud method using repo object.
+
+findAll, findById, save etc..
+
+create Controller with Required mapping
+
+get,post, put and delete.
